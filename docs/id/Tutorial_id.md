@@ -314,7 +314,7 @@ if err != nil {
 ### From GIT
 
 ```go
-bundle := pkg.NewGITResourceBundle("https://github.com/hyperjumptech/grule-rule-engine.git", "/**/*.grl")
+bundle := pkg.NewGITResourceBundle("https://github.com/databahn-ai/grule-rule-engine.git", "/**/*.grl")
 resources := bundle.MustLoad()
 for _, res := range resources {
     err := ruleBuilder.BuildRuleFromResource("TutorialRules", "0.0.1", res)

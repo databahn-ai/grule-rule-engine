@@ -22,8 +22,8 @@ import (
 	"sort"
 	"time"
 
-	"github.com/hyperjumptech/grule-rule-engine/ast"
-	"github.com/hyperjumptech/grule-rule-engine/logger"
+	"github.com/databahn-ai/grule-rule-engine/ast"
+	"github.com/databahn-ai/grule-rule-engine/logger"
 )
 
 const (

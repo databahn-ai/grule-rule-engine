@@ -16,7 +16,7 @@ package model
 
 import (
 	"fmt"
-	"github.com/hyperjumptech/grule-rule-engine/pkg"
+	"github.com/databahn-ai/grule-rule-engine/pkg"
 	"reflect"
 	"regexp"
 	"strings"

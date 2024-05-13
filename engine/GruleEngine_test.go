@@ -22,9 +22,9 @@ import (
 	"testing"
 	"time"
 
-	"github.com/hyperjumptech/grule-rule-engine/ast"
-	"github.com/hyperjumptech/grule-rule-engine/builder"
-	"github.com/hyperjumptech/grule-rule-engine/pkg"
+	"github.com/databahn-ai/grule-rule-engine/ast"
+	"github.com/databahn-ai/grule-rule-engine/builder"
+	"github.com/databahn-ai/grule-rule-engine/pkg"
 	"github.com/stretchr/testify/assert"
 )
 
