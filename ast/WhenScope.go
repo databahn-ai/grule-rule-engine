@@ -17,10 +17,10 @@ package ast
 import (
 	"bytes"
 	"errors"
-	"github.com/hyperjumptech/grule-rule-engine/ast/unique"
+	"github.com/databahn-ai/grule-rule-engine/ast/unique"
 	"reflect"
 
-	"github.com/hyperjumptech/grule-rule-engine/pkg"
+	"github.com/databahn-ai/grule-rule-engine/pkg"
 )
 
 // NewWhenScope creates new instance of WhenScope

@@ -17,8 +17,8 @@ package ast
 import (
 	"bytes"
 	"fmt"
-	"github.com/hyperjumptech/grule-rule-engine/ast/unique"
-	"github.com/hyperjumptech/grule-rule-engine/pkg"
+	"github.com/databahn-ai/grule-rule-engine/ast/unique"
+	"github.com/databahn-ai/grule-rule-engine/pkg"
 	"reflect"
 )
 

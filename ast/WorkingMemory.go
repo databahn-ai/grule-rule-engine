@@ -16,9 +16,9 @@ package ast
 
 import (
 	"fmt"
-	"github.com/hyperjumptech/grule-rule-engine/ast/unique"
-	"github.com/hyperjumptech/grule-rule-engine/logger"
-	"github.com/hyperjumptech/grule-rule-engine/pkg"
+	"github.com/databahn-ai/grule-rule-engine/ast/unique"
+	"github.com/databahn-ai/grule-rule-engine/logger"
+	"github.com/databahn-ai/grule-rule-engine/pkg"
 	"strings"
 	"time"
 )

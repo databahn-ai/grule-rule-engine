@@ -15,13 +15,13 @@
 package ast
 
 import (
-	"github.com/hyperjumptech/grule-rule-engine/logger"
+	"github.com/databahn-ai/grule-rule-engine/logger"
 	"math"
 	"reflect"
 	"strings"
 	"time"
 
-	"github.com/hyperjumptech/grule-rule-engine/pkg"
+	"github.com/databahn-ai/grule-rule-engine/pkg"
 )
 
 var (

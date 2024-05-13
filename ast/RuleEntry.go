@@ -18,10 +18,10 @@ import (
 	"bytes"
 	"context"
 	"fmt"
-	"github.com/hyperjumptech/grule-rule-engine/ast/unique"
+	"github.com/databahn-ai/grule-rule-engine/ast/unique"
 	"reflect"
 
-	"github.com/hyperjumptech/grule-rule-engine/pkg"
+	"github.com/databahn-ai/grule-rule-engine/pkg"
 )
 
 // NewRuleEntry create new instance of RuleEntry

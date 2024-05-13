@@ -18,7 +18,7 @@ import (
 	"bytes"
 	"encoding/binary"
 	"fmt"
-	"github.com/hyperjumptech/grule-rule-engine/ast/unique"
+	"github.com/databahn-ai/grule-rule-engine/ast/unique"
 	"github.com/sirupsen/logrus"
 	"io"
 	"math"

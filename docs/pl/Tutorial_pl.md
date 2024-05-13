@@ -17,7 +17,7 @@ Należy pamiętać, że Grule używa Go 1.16.
 Aby zaimportować Grule do swojego projektu:
 
 ```Shell
-$ go get github.com/hyperjumptech/grule-rule-engine
+$ go get github.com/databahn-ai/grule-rule-engine
 ```
 
 Z Twojego `go` możesz zaimportować Grule.
