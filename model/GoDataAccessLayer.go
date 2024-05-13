@@ -479,6 +479,17 @@ func (node *GoValueNode) CallFunction(funcName string, args ...reflect.Value) (r
 
 	if node.IsObject() || node.IsInterface() {
 		funcValue := node.thisValue.MethodByName(funcName)
+		argCount := funcValue.Type().NumIn()
+		if argCount != len(args) {
+			return reflect.Value{}, fmt.Errorf("this node identified as \"%s\" calling function %s which \n\nrequires %d arguments, got %d", node.IdentifiedAs(), funcName, argCount, len(args))
+		}
+		for i := 0; i < argCount; i++ {
+			if !args[i].IsValid() {
+				argType := funcValue.Type().In(i)
+				valueZero := reflect.Zero(argType)
+				args[i] = valueZero
+			}
+		}
 		if funcValue.IsValid() {
 			rets := funcValue.Call(args)
 			if len(rets) > 1 {

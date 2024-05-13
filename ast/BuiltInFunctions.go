@@ -103,6 +103,9 @@ func (gf *BuiltInFunctions) IsNil(i interface{}) bool {
 
 // IsZero Enable zero checking
 func (gf *BuiltInFunctions) IsZero(i interface{}) bool {
+	if i == nil {
+		return true
+	}
 	val := reflect.ValueOf(i)
 	switch val.Kind() {
 	case reflect.Struct:
