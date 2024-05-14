@@ -334,9 +334,13 @@ func (e *ExpressionAtom) Evaluate(dataContext IDataContext, memory *WorkingMemor
 		return e.Value, err
 	}
 	if e.ExpressionAtom != nil && e.FunctionCall != nil {
-		_, err := e.ExpressionAtom.Evaluate(dataContext, memory)
+		val, err := e.ExpressionAtom.Evaluate(dataContext, memory)
+		if !val.IsValid() {
+			e.Evaluated = true
+			e.ValueNode = model.NewGoValueNode(val, e.FunctionCall.FunctionName)
+			return val, err
+		}
 		if err != nil {
-
 			return reflect.ValueOf(nil), err
 		}
 

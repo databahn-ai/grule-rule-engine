@@ -198,3 +198,46 @@ func TestDataContextWithFactMissingFieldsWithIsZeroIsNil(t *testing.T) {
 	}
 
 }
+
+const (
+	functionCallRule = `
+	rule TestRule "" {
+		when
+			inputs.i_am_missing.ToLower().HasPrefix("miss") || IsNil(inputs.another_missing)
+		then
+			R.Result = "ok";
+			Retract("TestRule");
+	}
+	`
+)
+
+func TestDataContextWithFactMissingFieldsWithFunctionCall(t *testing.T) {
+	result := &ObjectResult{
+		Result: "NoResult",
+	}
+
+	// build rules
+	lib := ast.NewKnowledgeLibrary()
+	rb := builder.NewRuleBuilder(lib)
+	err := rb.BuildRuleFromResource("Test", "0.0.1", pkg.NewBytesResource([]byte(functionCallRule)))
+
+	// 	add JSON fact
+	json := []byte(`{"blabla":"bla","name":{"first":"john","last":"doe"}}`)
+	kb, err := lib.NewKnowledgeBaseInstance("Test", "0.0.1")
+	assert.NoError(t, err)
+	dcx := ast.NewDataContext()
+
+	err = dcx.Add("R", result)
+	err = dcx.AddJSON("inputs", json)
+	if err != nil {
+		fmt.Println(err.Error())
+	}
+
+	err = engine.NewGruleEngine().Execute(dcx, kb)
+	assert.NoError(t, err)
+
+	if result.Result != "ok" {
+		t.Errorf("Expected result to be ok, got %s", result.Result)
+	}
+
+}
