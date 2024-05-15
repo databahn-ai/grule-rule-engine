@@ -19,9 +19,9 @@ import (
 	"context"
 	"fmt"
 	"github.com/databahn-ai/grule-rule-engine/ast/unique"
-	"reflect"
-
 	"github.com/databahn-ai/grule-rule-engine/pkg"
+	"reflect"
+	"runtime/debug"
 )
 
 // NewRuleEntry create new instance of RuleEntry
@@ -171,7 +171,8 @@ func (e *RuleEntry) Evaluate(ctx context.Context, dataContext IDataContext, memo
 	}
 	defer func() {
 		if r := recover(); r != nil {
-			err = fmt.Errorf("error while evaluating rule %s, panic recovered", e.RuleName)
+			stackTrace := string(debug.Stack())
+			err = fmt.Errorf("error while evaluating rule %s, panic recovered, details: %s", e.RuleName, stackTrace)
 			can = false
 		}
 	}()
@@ -184,6 +185,9 @@ func (e *RuleEntry) Evaluate(ctx context.Context, dataContext IDataContext, memo
 		AstLog.Errorf("Error while evaluating rule %s, got %v", e.RuleName, err)
 
 		return false, fmt.Errorf("evaluating expression in rule '%s' the when raised an error. got %v", dataContext.GetRuleEntry().RuleName, err)
+	}
+	if !val.IsValid() {
+		return false, nil
 	}
 	if val.Kind() != reflect.Bool {
 
@@ -205,7 +209,8 @@ func (e *RuleEntry) Execute(ctx context.Context, dataContext IDataContext, memor
 	}
 	defer func() {
 		if r := recover(); r != nil {
-			err = fmt.Errorf("rule engine execute panic on rule %s ! recovered : %v", e.RuleName, r)
+			stackTrace := string(debug.Stack())
+			err = fmt.Errorf("rule engine execute panic on rule %s ! recovered : %v, details:%s", e.RuleName, r, stackTrace)
 		}
 	}()
 
