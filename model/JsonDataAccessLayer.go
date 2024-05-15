@@ -361,11 +361,7 @@ func (vn *JSONValueNode) CallFunction(funcName string, args ...reflect.Value) (r
 	if vn.IsObject() || vn.IsInterface() {
 		funcValue := vn.data.MethodByName(funcName)
 		if funcValue.IsValid() {
-			argCount := funcValue.Type().NumIn()
-			if argCount != len(args) {
-				return reflect.Value{}, fmt.Errorf("this node identified as \"%s\" calling function %s which \n\nrequires %d arguments, got %d", vn.IdentifiedAs(), funcName, argCount, len(args))
-			}
-			for i := 0; i < argCount; i++ {
+			for i := 0; i < len(args); i++ {
 				if !args[i].IsValid() {
 					argType := funcValue.Type().In(i)
 					valueZero := reflect.Zero(argType)
