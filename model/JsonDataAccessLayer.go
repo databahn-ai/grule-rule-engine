@@ -361,11 +361,21 @@ func (vn *JSONValueNode) CallFunction(funcName string, args ...reflect.Value) (r
 	if vn.IsObject() || vn.IsInterface() {
 		funcValue := vn.data.MethodByName(funcName)
 		if funcValue.IsValid() {
+			var variadicLastArgValZero reflect.Value
+			numArgs := funcValue.Type().NumIn()
+			if funcValue.Type().IsVariadic() {
+				lastArg := funcValue.Type().In(numArgs - 1)
+				variadicLastArgValZero = reflect.Zero(lastArg.Elem())
+			}
 			for i := 0; i < len(args); i++ {
 				if !args[i].IsValid() {
-					argType := funcValue.Type().In(i)
-					valueZero := reflect.Zero(argType)
-					args[i] = valueZero
+					if i >= numArgs-1 && funcValue.Type().IsVariadic() {
+						args[i] = variadicLastArgValZero
+					} else {
+						argType := funcValue.Type().In(i)
+						valueZero := reflect.Zero(argType)
+						args[i] = valueZero
+					}
 				}
 			}
 			rets := funcValue.Call(args)

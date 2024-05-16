@@ -479,14 +479,25 @@ func (node *GoValueNode) CallFunction(funcName string, args ...reflect.Value) (r
 
 	if node.IsObject() || node.IsInterface() {
 		funcValue := node.thisValue.MethodByName(funcName)
-		for i := 0; i < len(args); i++ {
-			if !args[i].IsValid() {
-				argType := funcValue.Type().In(i)
-				valueZero := reflect.Zero(argType)
-				args[i] = valueZero
-			}
-		}
 		if funcValue.IsValid() {
+			var variadicLastArgValZero reflect.Value
+			numArgs := funcValue.Type().NumIn()
+			if funcValue.Type().IsVariadic() {
+				lastArg := funcValue.Type().In(numArgs - 1)
+				variadicLastArgValZero = reflect.Zero(lastArg.Elem())
+			}
+
+			for i := 0; i < len(args); i++ {
+				if !args[i].IsValid() {
+					if i >= numArgs-1 && funcValue.Type().IsVariadic() {
+						args[i] = variadicLastArgValZero
+					} else {
+						argType := funcValue.Type().In(i)
+						valueZero := reflect.Zero(argType)
+						args[i] = valueZero
+					}
+				}
+			}
 			rets := funcValue.Call(args)
 			if len(rets) > 1 {
 

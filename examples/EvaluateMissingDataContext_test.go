@@ -241,3 +241,73 @@ func TestDataContextWithFactMissingFieldsWithFunctionCall(t *testing.T) {
 	}
 
 }
+
+const (
+	matchingRuleWithFunctionCallMultipleArgs = `
+	rule TestRule "" {
+		when
+			!IsZero(R.Result)
+		then
+			R.PassedWith("ok", inputs.missing, inputs.blabla, inputs.missing1);
+			Retract("TestRule");
+	}
+	`
+)
+
+type ObjectResultWithMethodMultipleParams struct {
+	Result     string
+	Attributes []string
+}
+
+func (o *ObjectResultWithMethodMultipleParams) PassedWith(result string, description ...string) {
+	o.Result = result
+	o.Attributes = description
+}
+
+func TestDataContextWithFactMissingFieldsAndMatchingWithFunctionCallsMultipleParams(t *testing.T) {
+	result := &ObjectResultWithMethodMultipleParams{
+		Result:     "NoResult",
+		Attributes: []string{},
+	}
+
+	// build rules
+	lib := ast.NewKnowledgeLibrary()
+	rb := builder.NewRuleBuilder(lib)
+	err := rb.BuildRuleFromResource("Test", "0.0.1", pkg.NewBytesResource([]byte(matchingRuleWithFunctionCallMultipleArgs)))
+
+	// 	add JSON fact
+	json := []byte(`{"blabla":"bla","name":{"first":"john","last":"doe"}}`)
+	kb, err := lib.NewKnowledgeBaseInstance("Test", "0.0.1")
+	assert.NoError(t, err)
+	dcx := ast.NewDataContext()
+
+	err = dcx.Add("R", result)
+	err = dcx.AddJSON("inputs", json)
+	if err != nil {
+		fmt.Println(err.Error())
+	}
+
+	err = engine.NewGruleEngine().Execute(dcx, kb)
+	assert.NoError(t, err)
+
+	if result.Result != "ok" {
+		t.Errorf("Expected result to be ok, got %s", result.Result)
+	}
+
+	if len(result.Attributes) != 3 {
+		t.Errorf("Expected 3 attributes, got %d", len(result.Attributes))
+	}
+
+	if result.Attributes[0] != "" {
+		t.Errorf("Expected first attribute to be nil, got %s", result.Attributes[0])
+	}
+
+	if result.Attributes[1] != "bla" {
+		t.Errorf("Expected second attribute to be bla, got %s", result.Attributes[1])
+	}
+
+	if result.Attributes[2] != "" {
+		t.Errorf("Expected third attribute to be nil, got %s", result.Attributes[2])
+	}
+
+}
