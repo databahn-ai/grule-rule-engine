@@ -375,6 +375,9 @@ func (node *GoValueNode) SetObjectValueByField(field string, newValue reflect.Va
 // CallFunction will call a function owned by the underlying value receiver.
 // this function will artificially create a built-in functions for constants, array and map.
 func (node *GoValueNode) CallFunction(funcName string, args ...reflect.Value) (retval reflect.Value, err error) {
+	if !node.thisValue.IsValid() {
+		return reflect.ValueOf(nil), nil
+	}
 	switch pkg.GetBaseKind(node.thisValue) {
 	case reflect.Int64, reflect.Uint64, reflect.Float64, reflect.Bool:
 

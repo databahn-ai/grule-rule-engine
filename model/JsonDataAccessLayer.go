@@ -252,6 +252,9 @@ func (vn *JSONValueNode) SetObjectValueByField(field string, newValue reflect.Va
 
 // CallFunction will always return an error, as Json data do not have any function in them.
 func (vn *JSONValueNode) CallFunction(funcName string, args ...reflect.Value) (reflect.Value, error) {
+	if !vn.data.IsValid() {
+		return reflect.ValueOf(nil), nil
+	}
 	switch pkg.GetBaseKind(vn.data) {
 	case reflect.Int64, reflect.Uint64, reflect.Float64, reflect.Bool:
 
