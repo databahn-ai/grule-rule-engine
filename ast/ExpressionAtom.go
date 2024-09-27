@@ -339,9 +339,7 @@ func (e *ExpressionAtom) Evaluate(dataContext IDataContext, memory *WorkingMemor
 			return reflect.ValueOf(nil), err
 		}
 		if !val.IsValid() {
-			e.Evaluated = true
-			e.ValueNode = model.NewGoValueNode(val, e.FunctionCall.FunctionName)
-			return val, err
+			return reflect.ValueOf(nil), err
 		}
 
 		args, err := e.FunctionCall.EvaluateArgumentList(dataContext, memory)
