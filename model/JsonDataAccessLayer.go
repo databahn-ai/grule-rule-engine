@@ -17,9 +17,10 @@ package model
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/databahn-ai/grule-rule-engine/pkg"
 	"reflect"
 	"time"
+
+	"github.com/databahn-ai/grule-rule-engine/pkg"
 )
 
 var (
@@ -180,6 +181,9 @@ func (vn *JSONValueNode) GetMapValueAt(index reflect.Value) (reflect.Value, erro
 		return reflect.ValueOf(nil), fmt.Errorf("JSON map selector must be a string")
 	}
 	tmap := vn.data.MapIndex(index)
+	if tmap == reflect.ValueOf(nil) {
+		return reflect.ValueOf(nil), nil
+	}
 
 	return tmap.Elem(), nil
 }
