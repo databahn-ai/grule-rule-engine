@@ -1,0 +1,9 @@
+# Repository: databahn-ai/grule-rule-engine
+# Owning team (catalog): Data Highway
+#
+# REQUIRED before merge — verify the line below:
+#   - Correct GitHub team: @databahn-ai/<team-slug>
+#   - At least one service owner GitHub username: @<owner>
+# Update if wrong, then merge.
+
+* @databahn-ai/team-data-highway @chandurup @ninjulkar @nikhilk378
