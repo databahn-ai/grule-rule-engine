@@ -7,3 +7,7 @@
 # Update if wrong, then merge.
 
 * @databahn-ai/team-data-highway @chandurup @ninjulkar @nikhilk378
+
+# SRE owns GitHub Actions and this CODEOWNERS file
+.github/workflows/   @databahn-ai/team-sre-devops
+.github/CODEOWNERS   @databahn-ai/team-sre-devops
